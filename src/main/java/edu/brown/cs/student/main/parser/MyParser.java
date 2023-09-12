@@ -10,15 +10,21 @@ import java.io.*;
 public class MyParser {
 
   private BufferedReader breader;
+  private boolean isHeader;
 
-  public MyParser(String filepath) throws FileNotFoundException {
+  public MyParser(String filepath, boolean header) throws FileNotFoundException {
     FileReader myReader = null;
     myReader = new FileReader(filepath);
     this.breader = new BufferedReader(myReader);
+    this.isHeader = header;
   }
 
-  public MyParser(Reader obj) {
+  public MyParser(Reader obj) { //try to make this default to false for this constructor
     this.breader = new BufferedReader(obj);
+  }
+
+  public void toParse() {
+
   }
 
 
