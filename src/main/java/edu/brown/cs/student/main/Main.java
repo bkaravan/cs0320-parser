@@ -1,5 +1,7 @@
 package edu.brown.cs.student.main;
 
+import edu.brown.cs.student.main.parser.MyParser;
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -27,7 +29,12 @@ public final class Main {
     System.out.println("Welcome to the CSV parser. What is the name of your file?");
     String path = myScan.nextLine();
     System.out.println("Parsing your file...");
-    // call the constructor for parser, return the database something
+    try {
+      MyParser parser = new MyParser(path);
+    } catch (FileNotFoundException e) {
+      System.err.println("Error " + e);
+      // terminate and start a new loop (this.run()?)
+    }
     System.out.println("What is the word we are looking for?");
     String searchWord = myScan.nextLine();
     System.out.println("Does you file have a header row? (Y/N)");
