@@ -31,12 +31,9 @@ public final class Main {
     String path = myScan.nextLine();
     System.out.println("Does your file have a header row? (Y/N)");
     boolean header;
-    String headerAns = myScan.nextLine().toLowerCase();
-    if (headerAns.equals("y")) {
-      header = true;
-    } else {
-      header = false;
-    }
+    String headerAns;
+    headerAns = myScan.nextLine();
+    header = headerAns.toLowerCase().equals("y");
     System.out.println("Parsing your file...");
     try {
       MyParser parser = new MyParser(path, header);
@@ -44,6 +41,7 @@ public final class Main {
       System.err.println("Error " + e);
       this.run();
     }
+    System.out.println("\n");
     System.out.println("What is the word we are looking for?");
     String searchWord = myScan.nextLine();
     List<String> narrowSearch = new ArrayList<String>();
