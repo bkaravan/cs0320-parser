@@ -2,6 +2,7 @@ package edu.brown.cs.student.main.parser;
 
 import edu.brown.cs.student.main.rowHandler.CreatorFromRow;
 import edu.brown.cs.student.main.rowHandler.FactoryFailureException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.*;
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public class MyParser<T> {
   static final Pattern regexSplitCSVRow = Pattern.compile(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*(?![^\\\"]*\\\"))");
-
+  private T headerLine;
   private ArrayList<List<String>> dataset;
   private CreatorFromRow<T> creator;
   private BufferedReader breader;
@@ -25,25 +26,24 @@ public class MyParser<T> {
     this.breader = new BufferedReader(obj);
     this.isHeader = header;
     this.creator = creator;
-//    this.toParse();
   }
 
-  private void toParse() throws IOException, FactoryFailureException {
+  public void toParse() throws IOException, FactoryFailureException {
     if (this.isHeader) {
       String header = this.breader.readLine();
-      System.out.println(List.of(regexSplitCSVRow.split(header)));
+      this.headerLine = this.creator.create(Arrays.asList(regexSplitCSVRow.split(header)));
+      System.out.println(this.headerLine);
     }
     try {
       String line = this.breader.readLine();
       while (line != null) {
-        String[] res = regexSplitCSVRow.split(line);
-//        this.creator.create();
+        this.creator.create(Arrays.asList(regexSplitCSVRow.split(line)));
       }
     } catch (IOException e) {
       System.out.println("Error " + e);
-//    } catch (FactoryFailureException e) {
-//
-//    }
+    } catch (FactoryFailureException e) {
+      System.out.println("Error " + e);
+    }
   }
 
 

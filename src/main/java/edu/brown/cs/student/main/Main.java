@@ -1,6 +1,7 @@
 package edu.brown.cs.student.main;
 
 import edu.brown.cs.student.main.parser.MyParser;
+import edu.brown.cs.student.main.rowHandler.FactoryFailureException;
 import edu.brown.cs.student.main.rowHandler.RowHandler;
 import java.io.*;
 import java.io.FileNotFoundException;
@@ -8,6 +9,7 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jetty.util.IO;
 
 /**
  * The Main class of our project. This is where execution begins.
@@ -19,14 +21,14 @@ public final class Main {
    *
    * @param args An array of command line arguments
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException, FactoryFailureException {
     new Main(args).run();
   }
 
   private Main(String[] args) {
   }
 
-  private void run() {
+  private void run() throws FileNotFoundException, IOException,FactoryFailureException {
     Scanner myScan = new Scanner(System.in);
     System.out.println(
         "Welcome to the CSV parser. Please provide the path to the file (For example, "
@@ -39,6 +41,7 @@ public final class Main {
       FileReader myReader = new FileReader(path);
       RowHandler row = new RowHandler();
       MyParser parser = new MyParser(myReader, header, row);
+      parser.toParse();
     } catch (FileNotFoundException e) {
       System.err.println(e);
       this.run();
