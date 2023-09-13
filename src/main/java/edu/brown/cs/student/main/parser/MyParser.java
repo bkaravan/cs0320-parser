@@ -1,6 +1,7 @@
 package edu.brown.cs.student.main.parser;
 
 import edu.brown.cs.student.main.rowHandler.CreatorFromRow;
+import edu.brown.cs.student.main.rowHandler.FactoryFailureException;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.*;
@@ -19,30 +20,19 @@ public class MyParser<T> {
   private BufferedReader breader;
   private boolean isHeader;
 
-  public MyParser(String filepath, boolean header)
-      throws FileNotFoundException {
-    FileReader myReader = null;
-    myReader = new FileReader(filepath);
-    this.breader = new BufferedReader(myReader);
-    this.isHeader = header;
-  }
-
-  public MyParser(String filepath, boolean header, CreatorFromRow<T> creator)
-      throws FileNotFoundException {
-    FileReader myReader = null;
-    myReader = new FileReader(filepath);
-    this.breader = new BufferedReader(myReader);
-    this.isHeader = header;
-    this.creator = creator;
-  }
 
   public MyParser(Reader obj, boolean header, CreatorFromRow<T> creator) {
     this.breader = new BufferedReader(obj);
     this.isHeader = header;
     this.creator = creator;
+//    this.toParse();
   }
 
-  public void toParse() throws IOException {
+  private void toParse() throws IOException, FactoryFailureException {
+    if (this.isHeader) {
+      String header = this.breader.readLine();
+      System.out.println(List.of(regexSplitCSVRow.split(header)));
+    }
     try {
       String line = this.breader.readLine();
       while (line != null) {
@@ -51,7 +41,9 @@ public class MyParser<T> {
       }
     } catch (IOException e) {
       System.out.println("Error " + e);
-    }
+//    } catch (FactoryFailureException e) {
+//
+//    }
   }
 
 
