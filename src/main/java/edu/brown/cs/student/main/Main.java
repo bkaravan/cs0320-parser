@@ -69,9 +69,9 @@ public final class Main {
     FileReader myReader = new FileReader(args[0]);
     RowHandler rowHandler = new RowHandler();
     boolean header = args[1].equals("true");
-    MyParser parser = new MyParser(new BufferedReader(myReader), header, rowHandler);
+    MyParser parser = new MyParser(new BufferedReader(myReader), rowHandler);
     parser.toParse();
-    MySearcher searcher = new MySearcher(parser.getDataset());
+    MySearcher searcher = new MySearcher(parser.getDataset(), header, args[3]);
     System.out.println(searcher.findRow(args[2]));
   }
 }

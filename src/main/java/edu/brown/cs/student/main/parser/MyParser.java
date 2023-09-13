@@ -15,25 +15,17 @@ import java.util.regex.Pattern;
  */
 public class MyParser<T> {
   static final Pattern regexSplitCSVRow = Pattern.compile(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*(?![^\\\"]*\\\"))");
-  private T headerLine;
   private ArrayList<T> dataset;
   private CreatorFromRow<T> creator;
   private BufferedReader breader;
-  private boolean isHeader;
 
 
-  public MyParser(Reader obj, boolean header, CreatorFromRow<T> creator) {
+  public MyParser(Reader obj, CreatorFromRow<T> creator) {
     this.breader = new BufferedReader(obj);
-    this.isHeader = header;
     this.creator = creator;
   }
 
   public void toParse() throws IOException, FactoryFailureException {
-    if (this.isHeader) {
-      String header = this.breader.readLine();
-      this.headerLine = this.creator.create(Arrays.asList(regexSplitCSVRow.split(header)));
-//      System.out.println(this.headerLine);
-    }
     this.dataset = new ArrayList<T>();
     try {
       String line = this.breader.readLine();
@@ -52,6 +44,5 @@ public class MyParser<T> {
   public ArrayList<T> getDataset() {
     return this.dataset;
   }
-
 
 }
