@@ -5,11 +5,9 @@ import java.util.List;
 
 public class RowHandler implements CreatorFromRow<ArrayList<String>> {
 
-  public RowHandler() {
-  }
+  public RowHandler() {}
 
   public ArrayList<String> create(List<String> row) throws FactoryFailureException {
     return new ArrayList<String>(row);
   }
-
 }

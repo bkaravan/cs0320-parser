@@ -2,10 +2,9 @@ package edu.brown.cs.student.main.parser;
 
 import edu.brown.cs.student.main.rowHandler.CreatorFromRow;
 import edu.brown.cs.student.main.rowHandler.FactoryFailureException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /**
@@ -14,17 +13,21 @@ import java.util.regex.Pattern;
  * for any type of reader object
  */
 public class MyParser<T> {
-  static final Pattern regexSplitCSVRow = Pattern.compile(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*(?![^\\\"]*\\\"))");
+  static final Pattern regexSplitCSVRow =
+      Pattern.compile(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*(?![^\\\"]*\\\"))");
   private ArrayList<T> dataset;
   private CreatorFromRow<T> creator;
   private BufferedReader breader;
-
 
   public MyParser(Reader obj, CreatorFromRow<T> creator) {
     this.breader = new BufferedReader(obj);
     this.creator = creator;
   }
 
+  /**
+   * method that uses the reader field to go through the file and parse each row using create, and
+   * creates a dataset of every row
+   */
   public void toParse() {
     this.dataset = new ArrayList<T>();
     try {
@@ -41,8 +44,12 @@ public class MyParser<T> {
     }
   }
 
+  /**
+   * a getter method to pass the parsed information into the searcher
+   *
+   * @return the dataset, which is a List of T objects after parsing the file
+   */
   public ArrayList<T> getDataset() {
     return this.dataset;
   }
-
 }
