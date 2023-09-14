@@ -27,36 +27,58 @@ public class MySearcher {
 
   // add throwing if trying to parse not int
   private void setUp() {
-    if (isHeader) {
+    if (this.isHeader) {
       this.startIndex = 1;
-      this.narrowIndex = this.dataset.get(0).indexOf(this.narrow);
     } else {
       this.startIndex = 0;
-      if (!narrow.equals("NULL")) {
-        this.narrowIndex = Integer.parseInt(this.narrow);
-      } else {
+    }
+    switch (this.narrow.substring(0, 4).toLowerCase()) {
+      case "ind:":
+        try {
+          this.narrowIndex = Integer.parseInt(this.narrow.substring(4).strip());
+          if (this.narrowIndex >= this.dataset.get(0).size()) {
+            System.err.println("Please make sure that you provide a valid Index");
+          }
+        } catch (NumberFormatException e) {
+          System.err.println("Please make sure to use an integer after Ind: ");
+        }
+      case "nam: ":
+        if (this.isHeader) {
+          this.narrowIndex = this.dataset.get(0).indexOf(this.narrow.substring(4).strip());
+        } else {
+          System.err.println("Please only search by column name when the header row is present");
+        }
+      default:
         this.narrowIndex = -1;
+    }
+  }
+
+  private void indexSearch(String toFind) {
+    for (int i = this.startIndex; i < this.dataset.size(); i++) {
+      List<String> row = this.dataset.get(i);
+      if (row.get(this.narrowIndex).equals(toFind)) {
+        this.found.add(row);
       }
     }
   }
 
-  public void findRows(String toFind) {
-    if (this.narrowIndex == -1) {
-      for (int i = this.startIndex; i < this.dataset.size(); i++) {
-        List<String> row = this.dataset.get(i);
-        for (String ele : row) {
-          if (ele.equals(toFind)) {
-            this.found.add(row);
-          }
-        }
-      }
-    } else {
-      for (int i = this.startIndex; i < this.dataset.size(); i++) {
-        List<String> row = this.dataset.get(i);
-        if (row.get(this.narrowIndex).equals(toFind)) {
+  private void allSearch(String toFind) {
+    for (int i = this.startIndex; i < this.dataset.size(); i++) {
+      List<String> row = this.dataset.get(i);
+      for (String ele : row) {
+        if (ele.equals(toFind)) {
           this.found.add(row);
         }
       }
+    }
+  }
+
+
+  public void findRows(String toFind) {
+    if (this.narrowIndex == -1) {
+      this.allSearch(toFind);
+    } else {
+      this.indexSearch(toFind);
     }
   }
 

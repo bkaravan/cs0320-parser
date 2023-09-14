@@ -136,7 +136,6 @@ public class Testing {
     assertEquals(compare, this.searcher.getFound().get(0));
   }
 
-
   // found H noN
   @Test
   public void searchFoundNoNarrowHeader() throws FileNotFoundException {
@@ -161,5 +160,16 @@ public class Testing {
     assertEquals(this.searcher.getFound().size(), 2);
     assertEquals(this.searcher.getFound().get(1), compare);
     assertEquals(this.searcher.getFound().get(0), compare0);
+  }
+
+  // the word is in the dataset but not in the desired column
+  @Test
+  public void searchNotFoundWrongNarrow() throws FileNotFoundException{
+    String filepath = "data/csvtest/test.csv";
+    this.parser = new MyParser(new FileReader(filepath), this.creator);
+    this.parser.toParse();
+    this.searcher = new MySearcher(parser.getDataset(), true, "class");
+    this.searcher.findRows("bohdan");
+    assertEquals(this.searcher.getFound().size(), 0);
   }
 }

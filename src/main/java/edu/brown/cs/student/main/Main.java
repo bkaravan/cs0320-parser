@@ -20,46 +20,26 @@ public final class Main {
     new Main(args).run();
   }
 
+  /**
+   * These specs are repeated in the README and are vital for program to run smoothly:
+   * args[0] - string filepath
+   * args[1] - string searchWord
+   * args[2] - boolean for the header ("True"/"False")
+   * args[3] - string for narrowing the search, that specifies either the name search or index search
+   * example: Ind: 0; Nam: Position
+   * @param args
+   */
   private Main(String[] args) {
     this.args = args;
   }
 
+  /**
+   * the method that runs Parser on the filepath and searcher on the dataset from the parser
+   * @throws FileNotFoundException
+   * @throws IOException
+   * @throws FactoryFailureException
+   */
   private void run() throws FileNotFoundException, IOException, FactoryFailureException {
-    //    Scanner myScan = new Scanner(System.in);
-    //    System.out.println(
-    //        "Welcome to the CSV parser. Please provide the path to the file (For example, "
-    //            + "data/census/income_by_race_edited.csv, if the file is in the working
-    // directory)");
-    //    String path = myScan.nextLine();
-    //    System.out.println("Does your file have a header row? (Y/N)");
-    //    String headerAns = myScan.nextLine();
-    //    boolean header = headerAns.toLowerCase().equals("y");
-    //    try {
-    //      FileReader myReader = new FileReader(path);
-    //      RowHandler row = new RowHandler();
-    //      MyParser parser = new MyParser(myReader, header, row);
-    //      parser.toParse();
-    //    } catch (FileNotFoundException e) {
-    //      System.err.println(e);
-    //      this.run();
-    //    } catch (IOException e) {
-    //      System.err.println(e);
-    //    }
-    //    System.out.println("What is the word we are looking for?");
-    //    String searchWord = myScan.nextLine();
-    //    System.out.println("Is there a colum specifier? (Y/N) (Hit enter if none)");
-    //    String specifier = myScan.nextLine();
-    //    if (!specifier.isEmpty()) {
-    //      if (header) {
-    //        System.out.println("Please enter the name of the column to look for");
-    //      } else {
-    //        System.out.println("Please enter the index of the column to look for");
-    //      }
-    //      specifier = myScan.nextLine();
-    //      //call the searcher with
-    //    } else {
-    //      //call the searcher without
-    // args params = filepath, header, searchword, keyword
     FileReader myReader = new FileReader(args[0]);
     RowHandler rowHandler = new RowHandler();
     boolean header = args[1].equals("true");
