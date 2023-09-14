@@ -25,15 +25,15 @@ public class MyParser<T> {
     this.creator = creator;
   }
 
-  public void toParse() throws IOException, FactoryFailureException {
+  public void toParse() {
     this.dataset = new ArrayList<T>();
     try {
       String line = this.breader.readLine();
       while (line != null) {
         this.dataset.add(this.creator.create(Arrays.asList(regexSplitCSVRow.split(line))));
-        line = breader.readLine();
+        line = this.breader.readLine();
       }
-      breader.close();
+      this.breader.close();
     } catch (IOException e) {
       System.out.println("Error " + e);
     } catch (FactoryFailureException e) {

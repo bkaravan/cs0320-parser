@@ -12,6 +12,4 @@ public class RowHandler implements CreatorFromRow<ArrayList<String>> {
     return new ArrayList<String>(row);
   }
 
-
-
 }

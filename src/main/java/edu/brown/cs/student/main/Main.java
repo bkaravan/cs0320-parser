@@ -65,13 +65,19 @@ public final class Main {
 //      //call the searcher with
 //    } else {
 //      //call the searcher without
-//    }
+    // args params = filepath, header, searchword, keyword
     FileReader myReader = new FileReader(args[0]);
     RowHandler rowHandler = new RowHandler();
     boolean header = args[1].equals("true");
     MyParser parser = new MyParser(new BufferedReader(myReader), rowHandler);
     parser.toParse();
-    MySearcher searcher = new MySearcher(parser.getDataset(), header, args[3]);
-    System.out.println(searcher.findRow(args[2]));
+    String narrow;
+    if (args.length == 3) {
+      narrow = "";
+    } else {
+      narrow = args[3];
+    }
+    MySearcher searcher = new MySearcher(parser.getDataset(), header, narrow);
+    searcher.findRow(args[2]);
   }
 }
