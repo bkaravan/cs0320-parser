@@ -67,11 +67,11 @@ public final class Main {
     parser.toParse();
     String narrow;
     if (args.length == 3) {
-      narrow = "";
+      narrow = "NULL";
     } else {
       narrow = args[3];
     }
     MySearcher searcher = new MySearcher(parser.getDataset(), header, narrow);
-    searcher.findRow(args[2]);
+    searcher.findRows(args[2]);
   }
 }

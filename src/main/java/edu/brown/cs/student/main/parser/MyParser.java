@@ -19,9 +19,19 @@ public class MyParser<T> {
   private CreatorFromRow<T> creator;
   private BufferedReader breader;
 
+  /**
+   * constructor for MyParser class. It takes in a Reader object and creates a buffered reader out
+   * of it, and an instance of a class that implements the CreatorFromRow interface that uses a
+   * generic type T. This type is used to create Rows and store them in the dataset, which is an
+   * ArrayList of objects of type T.
+   *
+   * @param obj
+   * @param creator
+   */
   public MyParser(Reader obj, CreatorFromRow<T> creator) {
     this.breader = new BufferedReader(obj);
     this.creator = creator;
+    this.dataset = new ArrayList<T>();
   }
 
   /**
@@ -29,7 +39,6 @@ public class MyParser<T> {
    * creates a dataset of every row
    */
   public void toParse() {
-    this.dataset = new ArrayList<T>();
     try {
       String line = this.breader.readLine();
       while (line != null) {
@@ -47,7 +56,7 @@ public class MyParser<T> {
   /**
    * a getter method to pass the parsed information into the searcher
    *
-   * @return the dataset, which is a List of T objects after parsing the file
+   * @return the dataset, which is an ArrayList of T objects after parsing the file
    */
   public ArrayList<T> getDataset() {
     return this.dataset;

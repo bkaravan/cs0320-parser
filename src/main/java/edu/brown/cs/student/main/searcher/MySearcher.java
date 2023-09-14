@@ -9,47 +9,58 @@ import java.util.List;
  */
 public class MySearcher {
 
+  private ArrayList<List<String>> found;
+
   private ArrayList<List<String>> dataset;
   private int narrowIndex;
   private String narrow;
   private boolean isHeader;
+  private int startIndex;
 
   public MySearcher(ArrayList<List<String>> dataset, boolean header, String key) {
     this.dataset = dataset;
     this.narrow = key;
     this.isHeader = header;
+    this.found = new ArrayList<>();
     this.setUp();
   }
 
+  // add throwing if trying to parse not int
   private void setUp() {
     if (isHeader) {
-      if (!narrow.isEmpty()) {
-        this.narrowIndex = this.dataset.get(0).indexOf(narrow);
-      }
+      this.startIndex = 1;
+      this.narrowIndex = this.dataset.get(0).indexOf(this.narrow);
     } else {
-      if (!narrow.isEmpty()) {
-        this.narrowIndex = Integer.parseInt(narrow);
+      this.startIndex = 0;
+      if (!narrow.equals("NULL")) {
+        this.narrowIndex = Integer.parseInt(this.narrow);
       } else {
         this.narrowIndex = -1;
       }
     }
   }
 
-  public void findRow(String toFind) {
+  public void findRows(String toFind) {
     if (this.narrowIndex == -1) {
-      for (List<String> row : this.dataset) {
+      for (int i = this.startIndex; i < this.dataset.size(); i++) {
+        List<String> row = this.dataset.get(i);
         for (String ele : row) {
           if (ele.equals(toFind)) {
-            System.out.println(row);
+            this.found.add(row);
           }
         }
       }
     } else {
-      for (List<String> row : this.dataset) {
+      for (int i = this.startIndex; i < this.dataset.size(); i++) {
+        List<String> row = this.dataset.get(i);
         if (row.get(this.narrowIndex).equals(toFind)) {
-          System.out.println(row);
+          this.found.add(row);
         }
       }
     }
+  }
+
+  public ArrayList<List<String>> getFound() {
+    return this.found;
   }
 }
