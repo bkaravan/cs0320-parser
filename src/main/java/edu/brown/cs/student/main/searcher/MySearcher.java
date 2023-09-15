@@ -21,7 +21,7 @@ public class MySearcher {
   private int startIndex;
 
   /**
-   * Constructor for the MySearcher class
+   * Constructor for the MySearcher class.
    *
    * @param dataset dataset from MyParser
    * @param header  boolean value to indicate whether the dataset has a header
@@ -38,7 +38,7 @@ public class MySearcher {
   }
 
   /**
-   * this method is in a way a helper method for the constructor. Based on the parameters that we
+   * This method is in a way a helper method for the constructor. Based on the parameters that we
    * take in, we change the startIndex and narrowIndex fields. If we have a header, we want to start
    * looking for our matches starting with our second row in the dataset, hence the startIndex. The
    * switch case of this method is responsible for determining whether a user indicated that the
@@ -82,6 +82,7 @@ public class MySearcher {
    * indexSearch is only called when there is correct column index we are interested in (which is
    * either a match with the colum name or index itself). IT ONLY LOOKS FOR ROW ENTRIES OF THAT
    * INDEX
+   *
    * @param toFind the search word
    */
   private void indexSearch(String toFind) {
@@ -94,7 +95,8 @@ public class MySearcher {
   }
 
   /**
-   * allSearch loops through the whole dataset and looks for any matches with the search word
+   * allSearch loops through the whole dataset and looks for any matches with the search word.
+   *
    * @param toFind the search word
    */
   private void allSearch(String toFind) {
@@ -123,6 +125,7 @@ public class MySearcher {
   }
 
   /**
+   * A getter method for the found field of MySearcher class.
    *
    * @return the list of matches with the search word, if any were found
    */

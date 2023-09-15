@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.rowHandler;
+package edu.brown.cs.student.main.rowhandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,13 @@ import java.util.List;
 public class RowHandler implements CreatorFromRow<ArrayList<String>> {
 
   /**
-   * create class take in a list of strings, strips every string of spaces, and returns an ArrayList
-   * of the input List of Strings
-   * @param row
-   * @return an ArrayList of stings from the input that is stripped of spaces
-   * @throws FactoryFailureException
+   * Create class take in a list of strings, strips every string of spaces, and returns an ArrayList
+   * of the input List of Strings.
+   *
+   * @param row a list of strings that we are getting from parsing.
+   * @return an ArrayList of stings from the input that is stripped of spaces.
+   * @throws FactoryFailureException an exception that is thrown if any exceptions happen during
+   *                                  row creation.
    */
 
   public ArrayList<String> create(List<String> row) throws FactoryFailureException {

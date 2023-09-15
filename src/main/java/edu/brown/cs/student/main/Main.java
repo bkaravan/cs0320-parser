@@ -1,11 +1,13 @@
 package edu.brown.cs.student.main;
 
 import edu.brown.cs.student.main.parser.MyParser;
-import edu.brown.cs.student.main.rowHandler.FactoryFailureException;
-import edu.brown.cs.student.main.rowHandler.RowHandler;
+import edu.brown.cs.student.main.rowhandler.FactoryFailureException;
+import edu.brown.cs.student.main.rowhandler.RowHandler;
 import edu.brown.cs.student.main.searcher.MySearcher;
-import java.io.*;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * The Main class of our project. This is where execution begins.
@@ -27,16 +29,16 @@ public final class Main {
    * These specs are repeated in the README and are vital for program to run smoothly: args[0] -
    * string filepath args[1] - string searchWord args[2] - boolean for the header ("True"/"False")
    * args[3] - string for narrowing the search, that specifies either the name search or index
-   * search example: "Ind: 0"; "Nam: Position"
+   * search example: "Ind: 0"; "Nam: Position".
    *
-   * @param args
+   * @param args the input parameters into the main function
    */
   private Main(String[] args) {
     this.args = args;
   }
 
   /**
-   * the method that runs Parser on the filepath and searcher on the dataset from the parser
+   * The method that runs Parser on the filepath and searcher on the dataset from the parser.
    */
   private void run() {
     try {
@@ -45,8 +47,12 @@ public final class Main {
       boolean header = args[2].equals("true");
       MyParser parser = new MyParser(new BufferedReader(myReader), rowHandler);
       parser.toParse();
-      String narrow;
-      if (args.length == 3) {
+      String narrow = "";
+      if (args.length < 3) {
+        System.err.println("Please provide all necessary arguments: filepath, search word, header");
+        System.exit(0);
+      }
+      else if (args.length == 3) {
         narrow = "NULL";
       } else {
         narrow = args[3];

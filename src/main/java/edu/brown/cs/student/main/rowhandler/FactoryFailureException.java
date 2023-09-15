@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.rowHandler;
+package edu.brown.cs.student.main.rowhandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import java.util.List;
  * Feel free to expand or supplement or use it for other purposes.
  */
 public class FactoryFailureException extends Exception {
+
   final List<String> row;
 
   public FactoryFailureException(String message, List<String> row) {

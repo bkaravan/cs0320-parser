@@ -9,12 +9,14 @@ import java.util.List;
  * of ParsedRows
  */
 public class ParsedRow {
+
   public int index;
   public List<String> contents;
 
   /**
-   * Constructor for ParsedRow, it takes in the rows index and the row itself and stores it
-   * @param num index of the row
+   * Constructor for ParsedRow, it takes in the rows index and the row itself and stores it.
+   *
+   * @param num      index of the row
    * @param contents contents of the row
    */
 
@@ -24,7 +26,8 @@ public class ParsedRow {
   }
 
   /**
-   * toString method
+   * toString method for ParsedRow.
+   *
    * @return a string representation of this class
    */
   public String toString() {

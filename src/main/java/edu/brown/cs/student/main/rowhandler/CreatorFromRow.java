@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.rowHandler;
+package edu.brown.cs.student.main.rowhandler;
 
 import java.util.List;
 

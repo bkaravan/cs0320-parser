@@ -1,8 +1,10 @@
 package edu.brown.cs.student.main.parser;
 
-import edu.brown.cs.student.main.rowHandler.CreatorFromRow;
-import edu.brown.cs.student.main.rowHandler.FactoryFailureException;
-import java.io.*;
+import edu.brown.cs.student.main.rowhandler.CreatorFromRow;
+import edu.brown.cs.student.main.rowhandler.FactoryFailureException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -24,8 +26,9 @@ public class MyParser<T> {
    * generic type T. This type is used to create Rows and store them in the dataset, which is an
    * ArrayList of objects of type T.
    *
-   * @param obj
-   * @param creator
+   * @param obj a reader object
+   * @param creator an object that implements the creatorFromRow interface that is responsible for
+   *                creating rows
    */
   public MyParser(Reader obj, CreatorFromRow<T> creator) {
     this.breader = new BufferedReader(obj);
@@ -34,8 +37,8 @@ public class MyParser<T> {
   }
 
   /**
-   * method that uses the reader field to go through the file and parse each row using create, and
-   * creates a dataset of every row
+   * Method that uses the reader field to go through the file and parse each row using create, and
+   * creates a dataset of every row.
    */
   public void toParse() {
     try {
@@ -53,7 +56,7 @@ public class MyParser<T> {
   }
 
   /**
-   * a getter method to pass the parsed information into the searcher
+   * A getter method to pass the parsed information into the searcher.
    *
    * @return the dataset, which is an ArrayList of T objects after parsing the file
    */

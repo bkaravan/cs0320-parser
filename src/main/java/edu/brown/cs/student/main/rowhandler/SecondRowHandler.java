@@ -1,24 +1,26 @@
-package edu.brown.cs.student.main.rowHandler;
+package edu.brown.cs.student.main.rowhandler;
 
 import edu.brown.cs.student.main.parser.ParsedRow;
 import java.util.List;
 
 /**
- * SecondRowHandler is an example of a different implementation of the CreatorFromRow interface
- * that uses the ParsedRow custom object
+ * SecondRowHandler is an example of a different implementation of the CreatorFromRow interface that
+ * uses the ParsedRow custom object.
  */
 public class SecondRowHandler implements CreatorFromRow<ParsedRow> {
+
   private int count;
 
   /**
-   * the constructor initializes the count that helps to keep track of the array indices
+   * The constructor initializes the count that helps to keep track of the array indices.
    */
   public SecondRowHandler() {
     this.count = 0;
   }
 
   /**
-   * create method creates a ParsedRow objects and returns it
+   * Create method creates a ParsedRow objects and returns it.
+   *
    * @param row a list of strings from the parser
    * @return ParsedRow from the input row
    * @throws FactoryFailureException when something fails during RowMaking

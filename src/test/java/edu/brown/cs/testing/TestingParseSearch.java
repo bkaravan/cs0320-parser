@@ -1,4 +1,4 @@
-package edu.brown.cs.student;
+package edu.brown.cs.testing;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -7,11 +7,10 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import edu.brown.cs.student.main.parser.MyParser;
 import edu.brown.cs.student.main.parser.ParsedRow;
-import edu.brown.cs.student.main.rowHandler.FactoryFailureException;
-import edu.brown.cs.student.main.rowHandler.RowHandler;
-import edu.brown.cs.student.main.rowHandler.SecondRowHandler;
+import edu.brown.cs.student.main.rowhandler.FactoryFailureException;
+import edu.brown.cs.student.main.rowhandler.RowHandler;
+import edu.brown.cs.student.main.rowhandler.SecondRowHandler;
 import edu.brown.cs.student.main.searcher.MySearcher;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.StringReader;
@@ -21,9 +20,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
- * testing suit for this project
+ * Testing suit for this project.
  */
-public class Testing {
+public class TestingParseSearch {
 
   private ArrayList<ArrayList<String>> testSet;
   private RowHandler creator = new RowHandler();
@@ -31,7 +30,7 @@ public class Testing {
   private MyParser parser;
 
   /**
-   * a simple test that creates a dataset out of a stringReader
+   * A simple test that creates a dataset out of a stringReader.
    */
   @Test
   public void parseStringReader() {
@@ -49,7 +48,7 @@ public class Testing {
   }
 
   /**
-   * test that checks that contents of the dataset after parser is done running are correct
+   * Test that checks that contents of the dataset after parser is done running are correct.
    */
   @Test
   public void parseCheckDataset() {
@@ -70,8 +69,8 @@ public class Testing {
   }
 
   /**
-   * test that parses a given file from a filepath and checks that it contains values from the csv
-   * file
+   * Test that parses a given file from a filepath and checks that it contains values from the csv
+   * file.
    *
    * @throws FileNotFoundException
    */
@@ -91,7 +90,7 @@ public class Testing {
   }
 
   /**
-   * a test that checks if the parser can handle the files of bigger size
+   * A test that checks if the parser can handle the files of bigger size.
    *
    * @throws FileNotFoundException
    */
@@ -105,7 +104,7 @@ public class Testing {
   }
 
   /**
-   * a test case to check the parser with another implementation of CreaterFromRow interface
+   * A test case to check the parser with another implementation of CreaterFromRow interface.
    *
    * @throws FactoryFailureException
    * @throws FileNotFoundException
@@ -121,8 +120,8 @@ public class Testing {
   }
 
   /**
-   * an assertThrow test to make sure that an error will be thrown when the user might use an
-   * incorrect filepath
+   * An assertThrow test to make sure that an error will be thrown when the user might use an
+   * incorrect filepath.
    */
   @Test
   public void fileNotFoundTest() {
@@ -132,7 +131,7 @@ public class Testing {
   }
 
   /**
-   * search test that correctly finds a value from the string reader without header or index specs
+   * Search test that correctly finds a value from the string reader without header or index specs.
    */
   @Test
   public void searchFoundNoNarrowNoHeader() {
@@ -154,7 +153,7 @@ public class Testing {
   }
 
   /**
-   * searcher test that correctly doesn't find the search word that is not present
+   * Searcher test that correctly doesn't find the search word that is not present.
    */
   @Test
   public void searchNotFoundNoNarrowNoHeader() {
@@ -173,7 +172,7 @@ public class Testing {
   }
 
   /**
-   * a searcher test to check that we are allowed to check by indices without a header
+   * A searcher test to check that we are allowed to check by indices without a header.
    */
   @Test
   public void searchFoundNarrowNoHeader() {
@@ -194,7 +193,7 @@ public class Testing {
   }
 
   /**
-   * searcher test that correctly finds the search word when there is a header and no index specs
+   * Searcher test that correctly finds the search word when there is a header and no index specs.
    *
    * @throws FileNotFoundException
    */
@@ -210,7 +209,7 @@ public class Testing {
 
   /**
    * Test that checks that if the search word repeats in the header column name, it only gets found
-   * in the "body" of the dataset
+   * in the "body" of the dataset.
    *
    * @throws FileNotFoundException
    */
@@ -226,7 +225,7 @@ public class Testing {
   }
 
   /**
-   * test that correctly finds a search word given a header and a name index specifies
+   * Test that correctly finds a search word given a header and a name index specifies.
    *
    * @throws FileNotFoundException
    */
@@ -245,8 +244,8 @@ public class Testing {
   }
 
   /**
-   * test that checks that if we specify the name of the column, and the search word is in the
-   * dataset but is not in that column, it DOES NOT get found
+   * Test that checks that if we specify the name of the column, and the search word is in the
+   * dataset but is not in that column, it DOES NOT get found.
    *
    * @throws FileNotFoundException
    */
@@ -261,7 +260,7 @@ public class Testing {
   }
 
   /**
-   * test to see that searcher can look up by index column when the header row is present
+   * Test to see that searcher can look up by index column when the header row is present.
    *
    * @throws FileNotFoundException
    */
@@ -278,8 +277,8 @@ public class Testing {
     assertEquals(this.searcher.getFound().get(0), compare);
   }
   /**
-   * test to see that if there was a mistake in providing the name of the column, the searcher
-   * defaults to looking through the whole dataset and can still find the row
+   * Test to see that if there was a mistake in providing the name of the column, the searcher
+   * defaults to looking through the whole dataset and can still find the row.
    */
   @Test
   public void searchWithMistake() throws FileNotFoundException {
