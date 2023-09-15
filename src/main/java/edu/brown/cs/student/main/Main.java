@@ -7,8 +7,11 @@ import edu.brown.cs.student.main.searcher.MySearcher;
 import java.io.*;
 import java.io.FileNotFoundException;
 
-/** The Main class of our project. This is where execution begins. */
+/**
+ * The Main class of our project. This is where execution begins.
+ */
 public final class Main {
+
   private String[] args;
 
   /**
@@ -21,12 +24,11 @@ public final class Main {
   }
 
   /**
-   * These specs are repeated in the README and are vital for program to run smoothly:
-   * args[0] - string filepath
-   * args[1] - string searchWord
-   * args[2] - boolean for the header ("True"/"False")
-   * args[3] - string for narrowing the search, that specifies either the name search or index search
-   * example: Ind: 0; Nam: Position
+   * These specs are repeated in the README and are vital for program to run smoothly: args[0] -
+   * string filepath args[1] - string searchWord args[2] - boolean for the header ("True"/"False")
+   * args[3] - string for narrowing the search, that specifies either the name search or index
+   * search example: "Ind: 0"; "Nam: Position"
+   *
    * @param args
    */
   private Main(String[] args) {
