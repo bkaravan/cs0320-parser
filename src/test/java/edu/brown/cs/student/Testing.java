@@ -6,8 +6,12 @@ import static org.testng.Assert.assertThrows;
 import static org.testng.AssertJUnit.assertEquals;
 
 import edu.brown.cs.student.main.parser.MyParser;
+import edu.brown.cs.student.main.parser.ParsedRow;
+import edu.brown.cs.student.main.rowHandler.FactoryFailureException;
 import edu.brown.cs.student.main.rowHandler.RowHandler;
+import edu.brown.cs.student.main.rowHandler.SecondRowHandler;
 import edu.brown.cs.student.main.searcher.MySearcher;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.StringReader;
@@ -71,6 +75,25 @@ public class Testing {
   }
 
   @Test
+  public void parseBigFile() throws FileNotFoundException {
+    String filepath = "data/census/income_by_race_edited.csv";
+    this.parser = new MyParser(new FileReader(filepath), this.creator);
+    this.parser.toParse();
+    this.testSet = parser.getDataset();
+    assertEquals(324, this.testSet.size());
+  }
+
+  @Test
+  public void parseDifferentGeneric() throws FactoryFailureException, FileNotFoundException {
+    String filepath = "data/csvtest/noHeaderTest.csv";
+    this.parser = new MyParser(new FileReader(filepath), new SecondRowHandler());
+    this.parser.toParse();
+    ArrayList<ParsedRow> testSet1 = parser.getDataset();
+    assertEquals(3, testSet1.size());
+    assertEquals("1, Joe, MetCalf, 330", testSet1.get(1).toString());
+  }
+
+  @Test
   public void fileNotFoundTest() {
     String filepath = "Not a File!";
     assertThrows(
@@ -85,7 +108,7 @@ public class Testing {
   public void searchFoundNoNarrowNoHeader() {
     String example =
         """
-             value1, value2, value3
+             value1, value2, value3 
              value4, value5, value6,
              value7, value8, value9
             """;
@@ -129,7 +152,7 @@ public class Testing {
     StringReader read = new StringReader(example);
     this.parser = new MyParser(read, this.creator);
     this.parser.toParse();
-    this.searcher = new MySearcher(parser.getDataset(), false, "2");
+    this.searcher = new MySearcher(parser.getDataset(), false, "Ind: 2");
     this.searcher.findRows("value9");
     ArrayList<String> compare = new ArrayList<>(List.of("value7", "value8", "value9"));
     assertEquals(1, this.searcher.getFound().size());
@@ -153,7 +176,7 @@ public class Testing {
     String filepath = "data/csvtest/test.csv";
     this.parser = new MyParser(new FileReader(filepath), this.creator);
     this.parser.toParse();
-    this.searcher = new MySearcher(parser.getDataset(), true, "class");
+    this.searcher = new MySearcher(parser.getDataset(), true, "NAM: class");
     this.searcher.findRows("second");
     ArrayList<String> compare = new ArrayList<>(List.of("bohdan", "second", "left"));
     ArrayList<String> compare0 = new ArrayList<>(List.of("jake", "second", "right"));
@@ -168,8 +191,21 @@ public class Testing {
     String filepath = "data/csvtest/test.csv";
     this.parser = new MyParser(new FileReader(filepath), this.creator);
     this.parser.toParse();
-    this.searcher = new MySearcher(parser.getDataset(), true, "class");
+    this.searcher = new MySearcher(parser.getDataset(), true, "nam: class");
     this.searcher.findRows("bohdan");
     assertEquals(this.searcher.getFound().size(), 0);
   }
+
+  @Test
+  public void searchFoundIndexWithHeader() throws FileNotFoundException{
+    String filepath = "data/stars/stardata.csv";
+    this.parser = new MyParser(new FileReader(filepath), this.creator);
+    this.parser.toParse();
+    this.searcher = new MySearcher(parser.getDataset(), true, "ind: 1");
+    this.searcher.findRows("Cael");
+    ArrayList<String> compare = new ArrayList<>(List.of("11","Cael","159.15237","0.1036","170.31215"));
+    assertEquals(this.searcher.getFound().size(), 1);
+    assertEquals(this.searcher.getFound().get(0), compare);
+  }
+
 }

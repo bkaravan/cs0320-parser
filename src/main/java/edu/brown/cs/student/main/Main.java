@@ -35,23 +35,25 @@ public final class Main {
 
   /**
    * the method that runs Parser on the filepath and searcher on the dataset from the parser
-   * @throws FileNotFoundException
-   * @throws IOException
-   * @throws FactoryFailureException
    */
-  private void run() throws FileNotFoundException, IOException, FactoryFailureException {
-    FileReader myReader = new FileReader(args[0]);
-    RowHandler rowHandler = new RowHandler();
-    boolean header = args[1].equals("true");
-    MyParser parser = new MyParser(new BufferedReader(myReader), rowHandler);
-    parser.toParse();
-    String narrow;
-    if (args.length == 3) {
-      narrow = "NULL";
-    } else {
-      narrow = args[3];
+  private void run() {
+    try {
+      FileReader myReader = new FileReader(args[0]);
+      RowHandler rowHandler = new RowHandler();
+      boolean header = args[2].equals("true");
+      MyParser parser = new MyParser(new BufferedReader(myReader), rowHandler);
+      parser.toParse();
+      String narrow;
+      if (args.length == 3) {
+        narrow = "NULL";
+      } else {
+        narrow = args[3];
+      }
+      MySearcher searcher = new MySearcher(parser.getDataset(), header, narrow);
+      searcher.findRows(args[1]);
+      System.out.println(searcher.getFound());
+    } catch (FileNotFoundException e) {
+      System.err.println("Please make sure the path to your file is correct");
     }
-    MySearcher searcher = new MySearcher(parser.getDataset(), header, narrow);
-    searcher.findRows(args[2]);
   }
 }
