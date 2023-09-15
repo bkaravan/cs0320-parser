@@ -16,10 +16,9 @@ public class ParsedRow {
   /**
    * Constructor for ParsedRow, it takes in the rows index and the row itself and stores it.
    *
-   * @param num      index of the row
+   * @param num index of the row
    * @param contents contents of the row
    */
-
   public ParsedRow(int num, List<String> contents) {
     this.index = num;
     this.contents = contents;

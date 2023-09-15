@@ -11,9 +11,7 @@ public class SecondRowHandler implements CreatorFromRow<ParsedRow> {
 
   private int count;
 
-  /**
-   * The constructor initializes the count that helps to keep track of the array indices.
-   */
+  /** The constructor initializes the count that helps to keep track of the array indices. */
   public SecondRowHandler() {
     this.count = 0;
   }

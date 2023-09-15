@@ -9,9 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-/**
- * The Main class of our project. This is where execution begins.
- */
+/** The Main class of our project. This is where execution begins. */
 public final class Main {
 
   private String[] args;
@@ -37,26 +35,23 @@ public final class Main {
     this.args = args;
   }
 
-  /**
-   * The method that runs Parser on the filepath and searcher on the dataset from the parser.
-   */
+  /** The method that runs Parser on the filepath and searcher on the dataset from the parser. */
   private void run() {
     try {
-      FileReader myReader = new FileReader(args[0]);
-      RowHandler rowHandler = new RowHandler();
-      boolean header = args[2].equals("true");
-      MyParser parser = new MyParser(new BufferedReader(myReader), rowHandler);
-      parser.toParse();
       String narrow = "";
       if (args.length < 3) {
         System.err.println("Please provide all necessary arguments: filepath, search word, header");
         System.exit(0);
-      }
-      else if (args.length == 3) {
+      } else if (args.length == 3) {
         narrow = "NULL";
       } else {
         narrow = args[3];
       }
+      FileReader myReader = new FileReader(args[0]);
+      RowHandler rowHandler = new RowHandler();
+      boolean header = args[2].toLowerCase().equals("true");
+      MyParser parser = new MyParser(new BufferedReader(myReader), rowHandler);
+      parser.toParse();
       MySearcher searcher = new MySearcher(parser.getDataset(), header, narrow);
       searcher.findRows(args[1]);
       System.out.println(searcher.getFound());

@@ -14,11 +14,14 @@ import java.util.regex.Pattern;
  * certain database out of it.
  */
 public class MyParser<T> {
+
   static final Pattern regexSplitCSVRow =
       Pattern.compile(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*(?![^\\\"]*\\\"))");
-  private ArrayList<T> dataset;
-  private CreatorFromRow<T> creator;
-  private BufferedReader breader;
+  private final ArrayList<T> dataset;
+  private final CreatorFromRow<T> creator;
+  private final BufferedReader buffreader;
+  private String line;
+  private int index;
 
   /**
    * constructor for MyParser class. It takes in a Reader object and creates a buffered reader out
@@ -26,32 +29,45 @@ public class MyParser<T> {
    * generic type T. This type is used to create Rows and store them in the dataset, which is an
    * ArrayList of objects of type T.
    *
-   * @param obj a reader object
+   * @param obj     a reader object
    * @param creator an object that implements the creatorFromRow interface that is responsible for
    *                creating rows
    */
   public MyParser(Reader obj, CreatorFromRow<T> creator) {
-    this.breader = new BufferedReader(obj);
+    this.buffreader = new BufferedReader(obj);
     this.creator = creator;
-    this.dataset = new ArrayList<T>();
+    this.dataset = new ArrayList<>();
+    this.line = "";
+    this.index = 0;
   }
 
   /**
    * Method that uses the reader field to go through the file and parse each row using create, and
-   * creates a dataset of every row.
+   * creates a dataset of every row. If it encounters a FactureFailure exception, it will print
+   * a message that the row is not passed into the dataset, but will keep going through the file
    */
   public void toParse() {
-    try {
-      String line = this.breader.readLine();
-      while (line != null) {
-        this.dataset.add(this.creator.create(Arrays.asList(regexSplitCSVRow.split(line))));
-        line = this.breader.readLine();
+    boolean keepGoing = true;
+    while (keepGoing) {
+      try {
+        this.line = this.buffreader.readLine();
+        while (this.line != null) {
+          this.dataset.add(this.creator.create(Arrays.asList(regexSplitCSVRow.split(this.line))));
+          this.line = this.buffreader.readLine();
+          this.index++;
+        }
+        keepGoing = false;
+        this.buffreader.close();
+      } catch (IOException e) {
+        System.out.println("Error " + e);
+      } catch (FactoryFailureException e) {
+        System.out.println("Row with index " + this.index + " "
+            + "was not processed. Error: " + e);
+        this.index++;
+        if (this.line == null) {
+          keepGoing = false;
+        }
       }
-      this.breader.close();
-    } catch (IOException e) {
-      System.out.println("Error " + e);
-    } catch (FactoryFailureException e) {
-      System.out.println("Error " + e);
     }
   }
 

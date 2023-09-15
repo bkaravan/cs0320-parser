@@ -2,6 +2,7 @@ package edu.brown.cs.testing;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertThrows;
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -17,12 +18,18 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.testng.AssertJUnit;
 
 /**
  * Testing suit for this project.
  */
 public class TestingParseSearch {
+
+  static final Pattern regexSplitCSVRow =
+      Pattern.compile(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*(?![^\\\"]*\\\"))");
 
   private ArrayList<ArrayList<String>> testSet;
   private RowHandler creator = new RowHandler();
@@ -70,17 +77,19 @@ public class TestingParseSearch {
 
   /**
    * Test that parses a given file from a filepath and checks that it contains values from the csv
-   * file.
+   * file. This file also contains empty entries, so it checks my FactoryFailureException - when
+   *  the program encounters a row with an empty entry, it will not parse it and print a message,
+   *  but the program won't terminate
    *
    * @throws FileNotFoundException
    */
   @Test
-  public void parseFileReader() throws FileNotFoundException {
+  public void parseFileReaderWithFactoryFailure() throws FileNotFoundException {
     String filepath = "data/stars/ten-star.csv";
     this.parser = new MyParser(new FileReader(filepath), this.creator);
     this.parser.toParse();
     this.testSet = parser.getDataset();
-    assertEquals(11, this.testSet.size());
+    assertEquals(7, this.testSet.size());
     ArrayList<String> row1 =
         new ArrayList<>(Arrays.asList("3759", "96 G. Psc", "7.26388", "1.55643", "0.68697"));
     ArrayList<String> row2 =
@@ -276,6 +285,7 @@ public class TestingParseSearch {
     assertEquals(this.searcher.getFound().size(), 1);
     assertEquals(this.searcher.getFound().get(0), compare);
   }
+
   /**
    * Test to see that if there was a mistake in providing the name of the column, the searcher
    * defaults to looking through the whole dataset and can still find the row.
@@ -289,4 +299,64 @@ public class TestingParseSearch {
     this.searcher.findRows("right");
     assertEquals(2, this.searcher.getFound().size());
   }
+
+  /**
+   * breaking regex test to see how it handles an example of a CSV row, which has quotation marks on
+   * its ends.
+   */
+  @Test
+  public void testQuotesWithCommasFullLine() {
+    String line = "\"Hello, traveller, how, is, life\"";
+    String[] result = regexSplitCSVRow.split(line);
+    Assertions.assertEquals(1, result.length);
+    AssertJUnit.assertFalse(result.length == 5);
+    Assertions.assertEquals("Hello, traveller, how, is, life",
+        result[0].trim().replaceAll("\"", ""));
+    //Looks like what happens is it can't separate the text within the quotes, so, for example,
+    // if we will have a row that starts and ends with a quote, we won't be able to match any
+    // words inside that row
+
+    Assertions.assertEquals("Hello, traveller, how, is, life", postprocess(result[0]));
+  }
+
+  /**
+   * braking regex test to see how it handles the input quote that has another quote within it.
+   */
+  @Test
+  public void testDoubleQuotesCommas() {
+    String line = "\"I, hope, you, will, have, a, \"great, CS32\", experience\"";
+    String[] result = regexSplitCSVRow.split(line);
+    Assertions.assertEquals(2, result.length);
+    // Another point of interest is this example, here, we imitate that our input row is a quote,
+    // and inside it there is another quote, the split happens with the comma that's in the inside
+    // quote; If you take a look at prints and the last two tests, it will actually leave one of
+    // the quotation marks next to words of that string, which is definitely not ideal
+    Assertions.assertEquals("I, hope, you, will, have, a, great",
+        result[0].trim().replaceAll("\"", ""));
+    Assertions.assertEquals("CS32, experience", result[1].trim().replaceAll("\"", ""));
+
+    // the first input is what we might expect, but it's not!
+    assertNotEquals("I, hope, you, will, have, a, great", postprocess(result[0]));
+    assertNotEquals("CS32, experience", postprocess(result[1]));
+  }
+
+  /**
+   * Elimiate a single instance of leading or trailing double-quote, and replace pairs of double
+   * quotes with singles.
+   *
+   * @param arg the string to process
+   * @return the postprocessed string
+   */
+  public static String postprocess(String arg) {
+    return arg
+        // Remove extra spaces at beginning and end of the line
+        .trim()
+        // Remove a beginning quote, if present
+        .replaceAll("^\"", "")
+        // Remove an ending quote, if present
+        .replaceAll("\"$", "")
+        // Replace double-double-quotes with double-quotes
+        .replaceAll("\"\"", "\"");
+  }
+
 }

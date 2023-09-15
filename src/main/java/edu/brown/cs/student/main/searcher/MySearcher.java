@@ -14,26 +14,23 @@ public class MySearcher {
 
   private ArrayList<List<String>> found;
 
-  private ArrayList<List<String>> dataset;
+  private final ArrayList<List<String>> dataset;
   private int narrowIndex;
-  private String narrow;
-  private boolean isHeader;
+  private final String narrow;
+  private final boolean isHeader;
   private int startIndex;
 
   /**
    * Constructor for the MySearcher class.
    *
    * @param dataset dataset from MyParser
-   * @param header  boolean value to indicate whether the dataset has a header
-   * @param key     a string that narrows down the search, if provided by user. Defaults to NULL in
-   *                main
+   * @param header boolean value to indicate whether the dataset has a header
+   * @param key a string that narrows down the search, if provided by user. Defaults to NULL in main
    */
-
   public MySearcher(ArrayList<List<String>> dataset, boolean header, String key) {
     this.dataset = dataset;
     this.narrow = key;
     this.isHeader = header;
-    this.found = new ArrayList<>();
     this.setUp();
   }
 
@@ -42,8 +39,7 @@ public class MySearcher {
    * take in, we change the startIndex and narrowIndex fields. If we have a header, we want to start
    * looking for our matches starting with our second row in the dataset, hence the startIndex. The
    * switch case of this method is responsible for determining whether a user indicated that the
-   * search is done through a name of the column, an index, or if it's a search of the whole
-   * dataset
+   * search is done through a name of the column, an index, or if it's a search of the whole dataset
    */
   private void setUp() {
     if (this.isHeader) {
@@ -53,7 +49,7 @@ public class MySearcher {
     }
     String match = this.narrow.substring(0, 4).toLowerCase();
     switch (match) {
-      case "ind:":
+      case "ind:" -> {
         try {
           this.narrowIndex = Integer.parseInt(this.narrow.substring(4).strip());
           if (this.narrowIndex >= this.dataset.get(0).size()) {
@@ -64,17 +60,16 @@ public class MySearcher {
           System.err.println("Please make sure to use an integer after Ind: ");
           System.exit(0);
         }
-        break;
-      case "nam:":
+      }
+      case "nam:" -> {
         if (this.isHeader) {
           this.narrowIndex = this.dataset.get(0).indexOf(this.narrow.substring(4).strip());
         } else {
           System.err.println("Please only search by column name when the header row is present");
           System.exit(0);
         }
-        break;
-      default:
-        this.narrowIndex = -1;
+      }
+      default -> this.narrowIndex = -1;
     }
   }
 
@@ -117,6 +112,7 @@ public class MySearcher {
    * @param toFind the word we are looking for in the dataset
    */
   public void findRows(String toFind) {
+    this.found = new ArrayList<>();
     if (this.narrowIndex == -1) {
       this.allSearch(toFind);
     } else {
