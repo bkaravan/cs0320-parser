@@ -29,9 +29,9 @@ public class MyParser<T> {
    * generic type T. This type is used to create Rows and store them in the dataset, which is an
    * ArrayList of objects of type T.
    *
-   * @param obj     a reader object
+   * @param obj a reader object
    * @param creator an object that implements the creatorFromRow interface that is responsible for
-   *                creating rows
+   *     creating rows
    */
   public MyParser(Reader obj, CreatorFromRow<T> creator) {
     this.buffreader = new BufferedReader(obj);
@@ -43,8 +43,8 @@ public class MyParser<T> {
 
   /**
    * Method that uses the reader field to go through the file and parse each row using create, and
-   * creates a dataset of every row. If it encounters a FactureFailure exception, it will print
-   * a message that the row is not passed into the dataset, but will keep going through the file
+   * creates a dataset of every row. If it encounters a FactureFailure exception, it will print a
+   * message that the row is not passed into the dataset, but will keep going through the file
    */
   public void toParse() {
     boolean keepGoing = true;
@@ -61,8 +61,7 @@ public class MyParser<T> {
       } catch (IOException e) {
         System.out.println("Error " + e);
       } catch (FactoryFailureException e) {
-        System.out.println("Row with index " + this.index + " "
-            + "was not processed. Error: " + e);
+        System.out.println("Row with index " + this.index + " " + "was not processed. Error: " + e);
         this.index++;
         if (this.line == null) {
           keepGoing = false;

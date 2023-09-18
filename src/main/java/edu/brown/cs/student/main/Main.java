@@ -49,9 +49,10 @@ public final class Main {
       }
       FileReader myReader = new FileReader(args[0]);
       RowHandler rowHandler = new RowHandler();
-      boolean header = args[2].toLowerCase().equals("true");
       MyParser parser = new MyParser(new BufferedReader(myReader), rowHandler);
       parser.toParse();
+//      System.out.println(parser.getDataset());
+      boolean header = args[2].toLowerCase().equals("true");
       MySearcher searcher = new MySearcher(parser.getDataset(), header, narrow);
       searcher.findRows(args[1]);
       System.out.println(searcher.getFound());

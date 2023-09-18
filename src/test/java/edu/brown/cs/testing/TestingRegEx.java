@@ -72,9 +72,7 @@ public class TestingRegEx {
     assertEquals("However, sometimes they are \"useful\"", postprocess(result[1]));
   }
 
-  /**
-   * regex test to see how it handles
-   */
+  /** regex test to see how it handles */
   @Test
   public void testQuotesWithCommasSingleInstance() {
     String line = "Hello, \"traveller\", how, is, life";
@@ -101,7 +99,7 @@ public class TestingRegEx {
     assertEquals(1, result.length);
     assertFalse(result.length == 5);
     assertEquals("Hello, traveller, how, is, life", result[0].trim().replaceAll("\"", ""));
-    //Looks like what happens is it can't separate the text within the quotes, so, for example,
+    // Looks like what happens is it can't separate the text within the quotes, so, for example,
     // if we will have a row that starts and ends with a quote, we won't be able to match any
     // words inside that row
 
@@ -109,9 +107,7 @@ public class TestingRegEx {
     assertEquals("Hello, traveller, how, is, life", postprocess(result[0]));
   }
 
-  /**
-   * braking regex test to see how it handles the input quote that has another quote within it.
-   */
+  /** braking regex test to see how it handles the input quote that has another quote within it. */
   @Test
   public void testDoubleQuotesCommas() {
     String line = "\"I, hope, you, will, have, a, \"great, CS32\", experience\"";

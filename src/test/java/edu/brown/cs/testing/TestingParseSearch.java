@@ -23,9 +23,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.testng.AssertJUnit;
 
-/**
- * Testing suit for this project.
- */
+/** Testing suit for this project. */
 public class TestingParseSearch {
 
   static final Pattern regexSplitCSVRow =
@@ -36,9 +34,7 @@ public class TestingParseSearch {
   private MySearcher searcher;
   private MyParser parser;
 
-  /**
-   * A simple test that creates a dataset out of a stringReader.
-   */
+  /** A simple test that creates a dataset out of a stringReader. */
   @Test
   public void parseStringReader() {
     String example =
@@ -54,9 +50,7 @@ public class TestingParseSearch {
     assertEquals(3, this.testSet.size());
   }
 
-  /**
-   * Test that checks that contents of the dataset after parser is done running are correct.
-   */
+  /** Test that checks that contents of the dataset after parser is done running are correct. */
   @Test
   public void parseCheckDataset() {
     String example =
@@ -77,9 +71,9 @@ public class TestingParseSearch {
 
   /**
    * Test that parses a given file from a filepath and checks that it contains values from the csv
-   * file. This file also contains empty entries, so it checks my FactoryFailureException - when
-   *  the program encounters a row with an empty entry, it will not parse it and print a message,
-   *  but the program won't terminate
+   * file. This file also contains empty entries, so it checks my FactoryFailureException - when the
+   * program encounters a row with an empty entry, it will not parse it and print a message, but the
+   * program won't terminate
    *
    * @throws FileNotFoundException
    */
@@ -161,9 +155,7 @@ public class TestingParseSearch {
     assertEquals(1, this.searcher.getFound().size());
   }
 
-  /**
-   * Searcher test that correctly doesn't find the search word that is not present.
-   */
+  /** Searcher test that correctly doesn't find the search word that is not present. */
   @Test
   public void searchNotFoundNoNarrowNoHeader() {
     String example =
@@ -180,9 +172,7 @@ public class TestingParseSearch {
     assertEquals(0, this.searcher.getFound().size());
   }
 
-  /**
-   * A searcher test to check that we are allowed to check by indices without a header.
-   */
+  /** A searcher test to check that we are allowed to check by indices without a header. */
   @Test
   public void searchFoundNarrowNoHeader() {
     String example =
@@ -310,18 +300,16 @@ public class TestingParseSearch {
     String[] result = regexSplitCSVRow.split(line);
     Assertions.assertEquals(1, result.length);
     AssertJUnit.assertFalse(result.length == 5);
-    Assertions.assertEquals("Hello, traveller, how, is, life",
-        result[0].trim().replaceAll("\"", ""));
-    //Looks like what happens is it can't separate the text within the quotes, so, for example,
+    Assertions.assertEquals(
+        "Hello, traveller, how, is, life", result[0].trim().replaceAll("\"", ""));
+    // Looks like what happens is it can't separate the text within the quotes, so, for example,
     // if we will have a row that starts and ends with a quote, we won't be able to match any
     // words inside that row
 
     Assertions.assertEquals("Hello, traveller, how, is, life", postprocess(result[0]));
   }
 
-  /**
-   * braking regex test to see how it handles the input quote that has another quote within it.
-   */
+  /** braking regex test to see how it handles the input quote that has another quote within it. */
   @Test
   public void testDoubleQuotesCommas() {
     String line = "\"I, hope, you, will, have, a, \"great, CS32\", experience\"";
@@ -331,8 +319,8 @@ public class TestingParseSearch {
     // and inside it there is another quote, the split happens with the comma that's in the inside
     // quote; If you take a look at prints and the last two tests, it will actually leave one of
     // the quotation marks next to words of that string, which is definitely not ideal
-    Assertions.assertEquals("I, hope, you, will, have, a, great",
-        result[0].trim().replaceAll("\"", ""));
+    Assertions.assertEquals(
+        "I, hope, you, will, have, a, great", result[0].trim().replaceAll("\"", ""));
     Assertions.assertEquals("CS32, experience", result[1].trim().replaceAll("\"", ""));
 
     // the first input is what we might expect, but it's not!
@@ -358,5 +346,4 @@ public class TestingParseSearch {
         // Replace double-double-quotes with double-quotes
         .replaceAll("\"\"", "\"");
   }
-
 }
